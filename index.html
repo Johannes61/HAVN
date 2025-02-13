@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOL Reclaim Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Solana Dependencies -->
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/wallet-adapter-base"></script>
+</head>
+<body>
+    <!-- Dynamic Background -->
+    <div class="dynamic-bg"></div>
+
+    <nav>
+        <div class="logo">
+            <i class="fas fa-wallet"></i>
+            SOL Reclaim
+        </div>
+        <div class="nav-links">
+            <div class="network-selector">
+                <select id="network-select">
+                    <option value="mainnet">Mainnet</option>
+                    <option value="devnet">Devnet</option>
+                    <option value="testnet">Testnet</option>
+                </select>
+            </div>
+            <button class="connect-wallet" id="wallet-connect">
+                <i class="fas fa-plug"></i>
+                <span>Connect Wallet</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="network-status">
+        <span class="status-dot"></span>
+        <span class="network-name">Mainnet</span>
+    </div>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Reclaim Your <span class="gradient-text">Solana</span></h1>
+                <p class="hero-subtitle">Find and claim abandoned accounts with zero balance</p>
+                
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-info">
+                            <h3>50K+</h3>
+                            <p>Active Users</p>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-coins"></i>
+                        <div class="stat-info">
+                            <h3>1M+</h3>
+                            <p>SOL Claimed</p>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="stat-info">
+                            <h3>100%</h3>
+                            <p>Success Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wallet-dashboard hidden" id="wallet-dashboard">
+                <div class="dashboard-header">
+                    <h2>Wallet Dashboard</h2>
+                    <div id="wallet-balance" class="balance-display">
+                        <i class="fas fa-wallet"></i>
+                        <span>0 SOL</span>
+                    </div>
+                </div>
+
+                <div class="accounts-section">
+                    <div class="section-header">
+                        <h3>Abandoned Accounts</h3>
+                        <span class="account-count">0 found</span>
+                    </div>
+                    <div class="accounts-list" id="abandoned-accounts">
+                        <!-- Accounts will be listed here -->
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="claim-all-btn action-button" disabled>
+                        <i class="fas fa-search"></i>
+                        Scan for Accounts
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="features">
+            <h2 class="section-title">Why Choose Us</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure Claims</h3>
+                    <p>Multi-signature verification and secure transaction handling</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Instant Processing</h3>
+                    <p>Lightning-fast claim processing with real-time confirmation</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>24/7 Availability</h3>
+                    <p>Claim your SOL anytime, anywhere</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Real-time Updates</h3>
+                    <p>Track your claims with live status updates</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="recent-activity">
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-list">
+                <!-- Activity items will be added dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Wallet Selection Modal -->
+    <div class="modal-overlay" id="wallet-modal-overlay">
+        <div class="wallet-modal">
+            <div class="modal-header">
+                <h2>Connect Wallet</h2>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="wallet-options">
+                <div class="wallet-option" data-wallet="phantom">
+                    <img src="https://phantom.app/img/logo.png" alt="Phantom">
+                    <span>Phantom</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="wallet-option" data-wallet="solflare">
+                    <img src="https://solflare.com/assets/logo.svg" alt="Solflare">
+                    <span>Solflare</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="wallet-option" data-wallet="backpack">
+                    <img src="https://backpack.app/logo.svg" alt="Backpack">
+                    <span>Backpack</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="wallet-option" data-wallet="glow">
+                    <img src="https://glow.app/logo.png" alt="Glow">
+                    <span>Glow</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                <div class="wallet-option" data-wallet="exodus">
+                    <img src="https://exodus.com/logo.svg" alt="Exodus">
+                    <span>Exodus</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden">
+        <div class="loader">
+            <div class="loader-spinner"></div>
+            <p class="loader-message">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About</h4>
+                <p>Secure platform for reclaiming abandoned Solana accounts.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#faq">FAQ</a>
+                <a href="#terms">Terms</a>
+                <a href="#privacy">Privacy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 SOL Reclaim. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
